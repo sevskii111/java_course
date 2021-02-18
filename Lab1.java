@@ -7,12 +7,12 @@ public class Lab1 {
         ArrayList<String> monthCalendarStrLines = new ArrayList<>();
         monthCalendarStrLines.add("LABEL WILL BE HERE");
         Calendar calendar = new GregorianCalendar(year, month, 1);
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) + offset;
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) + (offset - 1);
         dayOfWeek = dayOfWeek % 7 + dayOfWeek / 7;
         int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         List<String> dayNamesList = Arrays.asList(DateFormatSymbols.getInstance().getShortWeekdays());
-        Collections.rotate(dayNamesList, offset);
+        Collections.rotate(dayNamesList, dayNamesList.size() - (offset));
 
         String[] dayNames = dayNamesList.toArray(new String[0]);
         monthCalendarStrLines.add(String.join(" ", dayNames));
@@ -45,7 +45,8 @@ public class Lab1 {
         monthCalendarStrLines.set(0, " ".repeat(labelOffset) + label);
 
         for (int i = 0; i < monthCalendarStrLines.size(); i++) {
-            monthCalendarStrLines.set(i, monthCalendarStrLines.get(i) + " ".repeat(maxLen - monthCalendarStrLines.get(i).length()));
+            monthCalendarStrLines.set(i,
+                    monthCalendarStrLines.get(i) + " ".repeat(maxLen - monthCalendarStrLines.get(i).length()));
         }
 
         return String.join(System.lineSeparator(), monthCalendarStrLines);
@@ -58,20 +59,26 @@ public class Lab1 {
             String calendarForMonth = formCalendarForMonth(year, col * width, offset);
             String[] yearCalendarRowStrs = calendarForMonth.split(System.lineSeparator());
             for (int row = 1; row < width && col * width + row < 12; row++) {
-                String[] calendarForMonthLines = formCalendarForMonth(year, col * width + row, offset).split(System.lineSeparator());
+                String[] calendarForMonthLines = formCalendarForMonth(year, col * width + row, offset)
+                        .split(System.lineSeparator());
                 for (int l = 0; l < calendarForMonthLines.length; l++) {
                     yearCalendarRowStrs[l] += " ".repeat((5)) + calendarForMonthLines[l];
                 }
 
             }
-            yearCalendarStr.append(String.join(System.lineSeparator(), yearCalendarRowStrs)).append(System.lineSeparator().repeat(2));
+            yearCalendarStr.append(String.join(System.lineSeparator(), yearCalendarRowStrs))
+                    .append(System.lineSeparator().repeat(2));
         }
         return yearCalendarStr.toString();
     }
 
     public static void main(String[] args) {
-        System.out.println(formCalendarForYear(2021, 3, 2));
+        int offset = 1;
+        if (args.length > 0) {
+            offset = Integer.parseInt(args[0]);
+        }
 
+        System.out.println(formCalendarForYear(2021, 3, offset));
 
     }
 
