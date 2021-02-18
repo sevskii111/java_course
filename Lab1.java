@@ -8,7 +8,7 @@ public class Lab1 {
         monthCalendarStrLines.add("LABEL WILL BE HERE");
         Calendar calendar = new GregorianCalendar(year, month, 1);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) + (offset - 1);
-        dayOfWeek = dayOfWeek % 7 + dayOfWeek / 7;
+        dayOfWeek = dayOfWeek % 7 + Math.min(1, dayOfWeek / 7);
         int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         List<String> dayNamesList = Arrays.asList(DateFormatSymbols.getInstance().getShortWeekdays());
