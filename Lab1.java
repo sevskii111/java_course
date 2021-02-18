@@ -15,7 +15,8 @@ public class Lab1 {
         Collections.rotate(dayNamesList, dayNamesList.size() - (offset));
 
         String[] dayNames = dayNamesList.toArray(new String[0]);
-        monthCalendarStrLines.add(String.join(" ", dayNames));
+        monthCalendarStrLines.add(" " + " ".repeat(3 - dayNames[0].length())
+                + String.join(" " + " ".repeat(3 - dayNames[0].length()), dayNames));
 
         StringBuilder monthCalendarStrLine;
         for (int i = 0, dayOfMonth = 1; dayOfMonth <= daysInMonth; i++) {
@@ -40,7 +41,7 @@ public class Lab1 {
             maxLen = Math.max(maxLen, line.length());
         }
 
-        String label = new SimpleDateFormat("MMMM yyyy").format(calendar.getTime());
+        String label = new SimpleDateFormat("LLLL").format(calendar.getTime());
         int labelOffset = maxLen / 2 - label.length() / 2;
         monthCalendarStrLines.set(0, " ".repeat(labelOffset) + label);
 
