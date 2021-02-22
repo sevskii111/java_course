@@ -7,17 +7,20 @@ public class Lab1 {
         ArrayList<String> monthCalendarStrLines = new ArrayList<>();
         monthCalendarStrLines.add("LABEL WILL BE HERE");
         Calendar calendar = new GregorianCalendar(year, month, 1);
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) + (offset - 1);
-        dayOfWeek = dayOfWeek % 7 + Math.min(1, dayOfWeek / 7);
-        int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         List<String> dayNamesList = Arrays.asList(DateFormatSymbols.getInstance().getShortWeekdays());
-        Collections.rotate(dayNamesList, dayNamesList.size() - (offset));
+        dayNamesList = dayNamesList.subList(1, dayNamesList.size());
 
+        Collections.rotate(dayNamesList, (dayNamesList.size() - offset) % dayNamesList.size());
+        System.out.println((dayNamesList.size() - offset) % dayNamesList.size());
+        System.out.println(dayNamesList.size());
         String[] dayNames = dayNamesList.toArray(new String[0]);
         monthCalendarStrLines.add(" " + " ".repeat(3 - dayNames[0].length())
                 + String.join(" " + " ".repeat(3 - dayNames[0].length()), dayNames));
 
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - (offset);
+        dayOfWeek += 7 * Math.max(Math.ceil((dayOfWeek - 1) / -7.), 0);
+        int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         StringBuilder monthCalendarStrLine;
         for (int i = 0, dayOfMonth = 1; dayOfMonth <= daysInMonth; i++) {
             if (dayOfMonth == 1) {
@@ -78,8 +81,12 @@ public class Lab1 {
         if (args.length > 0) {
             offset = Integer.parseInt(args[0]);
         }
+        int year = Calendar.getInstance().get(Calendar.YEAR);
 
-        System.out.println(formCalendarForYear(2021, 3, offset));
+        if (args.length > 2) {
+            year = Integer.parseInt((args[1]));
+        }
+        System.out.println(formCalendarForYear(year, 3, offset));
 
     }
 
