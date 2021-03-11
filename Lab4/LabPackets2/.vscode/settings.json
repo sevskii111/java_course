@@ -1,0 +1,6 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "/home/sevskii/src/java_course/Lab4/LabPackets/LabPackets.jar"
+    ]
+}
